@@ -1,0 +1,15 @@
+m_m fina
+m_m
+
+lti
+l_tfh
+kalpatpower
+
+
+NSE:NETWORK18-BE
+NSE:SCHNEIDER-BE
+BSE:SPICEJET-B
+
+NSE:SPARC-BE
+NSE:SUZLON-BE
+NSE:TV18BRDCST-BE
