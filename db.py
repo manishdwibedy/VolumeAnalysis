@@ -1,26 +1,50 @@
-from tinydb import TinyDB, Query
-import pandas as pd
+# from tinydb import TinyDB, Query
+# import pandas as pd
 
-db = TinyDB('db.json')
+from pymongo.mongo_client import MongoClient
+from pymongo.server_api import ServerApi
+
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+MONGO_USERNAME = os.getenv('MONGO_USERNAME')
+MONGO_PASSWORD = os.getenv('MONGO_PASSWORD')
+MONGO_HOST = os.getenv('MONGO_HOST')
+
+print(MONGO_HOST, MONGO_USERNAME, MONGO_PASSWORD)
+URI = f"mongodb+srv://{MONGO_USERNAME}:{MONGO_PASSWORD}@{MONGO_HOST}/?retryWrites=true&w=majority&appName=VolumeAnalysis"
+# client = pymongo.MongoClient()
+
+client = MongoClient(URI, server_api=ServerApi('1'))
+
+# Send a ping to confirm a successful connection
+try:
+    client.admin.command('ping')
+    print("Pinged your deployment. You successfully connected to MongoDB!")
+except Exception as e:
+    print(e)
+
+db = client["volume_analysis"]
+symbols = db['symbols']
+stock_data = db["stock_data"]
+
 
 def save_symbols(symbol_list):
-    table = db.table('symbols')
-
-    for symbol in symbol_list:
-        table.insert({'name': symbol})
-
-    table.all()
+    result = symbols.insert_many(symbol_list)
+    return result.inserted_ids
 
 def get_all_symbols():
-    symbols = db.table('symbols').all()
+    symbols = stock_data.find()
     return symbols
 
 def get_symbol_data(symbol):
-    table = db.table('data')
-    symbol_data = Query()
-    data = table.search(symbol_data.CH_SYMBOL == symbol)
+    query = { "symbol": symbol }
 
-    return data
+    doc = stock_data.find(query)
+
+    return doc
 
 def remove_symbol_data(symbol):
     table = db.table('data')
@@ -30,9 +54,9 @@ def remove_symbol_data(symbol):
     return data
 
 def save_data(data_list):
-    table = db.table('data')
+    result = stock_data.insert_one(data_list)
+    return result
 
-    table.insert_multiple(data_list)
 
 def check_symbol_date(symbol, check_date):
     table = db.table('data')
