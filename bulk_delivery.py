@@ -1,4 +1,4 @@
-from db import get_all_symbols, is_symbol_present, check_symbol_date
+from db_tiny import get_all_symbols, is_symbol_present, check_symbol_date
 from delivery_download import download_data, save
 from datetime import date
 from time import sleep

@@ -1,4 +1,4 @@
-from db import get_symbol_data, check_symbol_date
+from db_tiny import get_symbol_data, check_symbol_date
 
 
 data = get_symbol_data('HDFCBANK')

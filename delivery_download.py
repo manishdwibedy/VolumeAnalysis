@@ -1,6 +1,6 @@
 # Call URL - https://www.nseindia.com/api/historical/securityArchives?from=30-07-2022&to=30-07-2023&symbol=ITC&dataType=priceVolumeDeliverable&series=ALL
 
-from db import get_all_symbols, save_data
+from db_tiny import get_all_symbols, save_data
 from datetime import date, timedelta
 import requests
 # print(get_all_symbols())

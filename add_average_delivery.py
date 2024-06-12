@@ -1,4 +1,4 @@
-from db import get_all_symbols, is_symbol_present, add_average_delivery
+from db_tiny import get_all_symbols, is_symbol_present, add_average_delivery
 
 symbols = get_all_symbols()
 
